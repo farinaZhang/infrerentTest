@@ -15,10 +15,10 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements View.OnClickListener{
     private static final String TAG = "ConsumerIrTest";
-    private TextView mFreqsText;
+    private Button mPower;
+    private Button mMute;
     private Button mVollumeUpBtn;
     private Button mVollumeDownBtn ;
-    private Button mGetFre;
 
     // Android4.4之后 红外遥控ConsumerIrManager，可以被小米4调用
     private ConsumerIrManager mCIR;
@@ -36,55 +36,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     private void initViewsAndEvents() {
+        mPower = (Button)findViewById(R.id.power_button);
+        mMute = (Button)findViewById(R.id.vollume_mute_button);
         mVollumeDownBtn = (Button)findViewById(R.id.vollume_down_button);
         mVollumeUpBtn = (Button)findViewById(R.id.vollume_up_button);
-        mGetFre = (Button)findViewById(R.id.get_freqs_button);
 
+        mPower.setOnClickListener(this);
+        mMute.setOnClickListener(this);
         mVollumeUpBtn.setOnClickListener(this);
         mVollumeDownBtn.setOnClickListener(this);
-        mGetFre.setOnClickListener(this);
 
-        mFreqsText = (TextView) findViewById(R.id.freqs_text);
     }
 
-    /*View.OnClickListener mSendClickListener = new View.OnClickListener() {
-        @TargetApi(Build.VERSION_CODES.KITKAT)
-        public void onClick(View v) {
-            if (!mCIR.hasIrEmitter()) {
-                Log.e(TAG, "未找到红外发身器！");
-                return;
-            }
-
-            // 一种交替的载波序列模式，通过毫秒测量
-            int[] pattern = { 8985,4481,578,555,578,555,578,555,578,555,578,555,578,555,579,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,579,554,578,1688,578,555,578,555,578,555,578,1688,578,555,578,1688,578,1688,578,555,578,1688,578,1688,578,1688,578,555,578,1688,579,40734,8985,2242,578,96164 };
-
-            // 在38.4KHz条件下进行模式转换
-            mCIR.transmit(38400, pattern);
-        }
-    };
-
-    @SuppressLint("NewApi")
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            StringBuilder b = new StringBuilder();
-
-            if (!mCIR.hasIrEmitter()) {
-                mFreqsText.setText("未找到红外发身器！");
-                return;
-            }
-
-            // 获得可用的载波频率范围
-            ConsumerIrManager.CarrierFrequencyRange[] freqs = mCIR
-                    .getCarrierFrequencies();
-            b.append("IR Carrier Frequencies:\n");// 红外载波频率
-            // 边里获取频率段
-            for (ConsumerIrManager.CarrierFrequencyRange range : freqs) {
-                b.append(String.format("    %d - %d\n",
-                        range.getMinFrequency(), range.getMaxFrequency()));
-            }
-            mFreqsText.setText(b.toString());// 显示结果
-        }
-    };*/
 
     @Override
     public void onClick(View v) {
@@ -96,34 +59,28 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
         switch(v.getId()){
             // 一种交替的载波序列模式，通过毫秒测量
+
+            case R.id.power_button:{
+                int[] pattern = { 8985,4481,578,555,578,555,578,556,578,555,578,555,578,555,578,555,578,555,578,1688,579,1687,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,578,1688,578,555,578,555,578,556,578,555,578,555,578,555,578,1688,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,40735,8985,2242,578,96163 };
+                mCIR.transmit(37950, pattern);
+                break;
+            }
+            case R.id.vollume_mute_button:{
+                //int[] pattern = { 8985,4481,578,555,578,555,578,555,578,555,578,555,579,555,578,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,578,1688,578,1688,579,1687,578,555,578,555,578,555,578,556,578,1688,578,555,578,555,578,555,578,1688,579,1687,578,1688,578,1689,578,40734,8985,2242,578,96163 };
+                int[] pattern = { 8986,4481,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,578,555,578,555,578,1688,578,555,578,556,577,555,578,556,578,1688,578,1688,578,1688,578,555,578,1688,578,1688,578,1688,578,1688,578,40703};
+                mCIR.transmit(37950, pattern);
+                break;
+            }
             case R.id.vollume_up_button:{
-                int[] pattern = { 8985,4481,578,555,578,555,578,555,578,555,578,555,578,555,579,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,579,554,578,1688,578,555,578,555,578,555,578,1688,578,555,578,1688,578,1688,578,555,578,1688,578,1688,578,1688,578,555,578,1688,579,40734,8985,2242,578,96164 };
-                mCIR.transmit(38400, pattern);
+                int[] pattern = { 8985,4481,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,555,578,555,578,555,579,1688,578,1688,578,555,578,555,578,555,578,1688,578,1688,578,1688,579,554,578,555,578,1688,578,1688,578,1688,578,40704 };
+                mCIR.transmit(37950, pattern);
                 break;
             }
             case R.id.vollume_down_button:{
-                int[] pattern = {8985,4481,578,555,578,555,578,555,578,556,578,555,578,555,578,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,579,1688,578,1688,578,1688,578,555,578,555,578,555,578,555,578,1688,578,555,578,555,578,555,578,1688,578,1689,578,1688,578,1688,578,555,578,1688,578,40734,8985,2242,578,96163 };
-                mCIR.transmit(38400, pattern);
+                int[] pattern = {8985,4481,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,555,578,1688,578,1688,578,1688,578,1688,578,1688,578,1688,578,555,578,1688,578,1688,578,555,578,555,579,1688,578,1688,578,555,578,555,578,555,578,555,578,1688,578,1688,578,555,579,555,578,1688,578,1688,578,1688,578,40703};
+                mCIR.transmit(37950, pattern);
                 break;
             }
-            case R.id.get_freqs_button:{
-
-                StringBuilder b = new StringBuilder();
-
-                // 获得可用的载波频率范围
-                ConsumerIrManager.CarrierFrequencyRange[] freqs = mCIR
-                        .getCarrierFrequencies();
-                b.append("IR Carrier Frequencies:\n");// 红外载波频率
-                // 边里获取频率段
-                for (ConsumerIrManager.CarrierFrequencyRange range : freqs) {
-                    b.append(String.format("    %d - %d\n",
-                            range.getMinFrequency(), range.getMaxFrequency()));
-                }
-                mFreqsText.setText(b.toString());// 显示结果
-                break;
-            }
-
-            // 在38.4KHz条件下进行模式转换
 
         }
     }

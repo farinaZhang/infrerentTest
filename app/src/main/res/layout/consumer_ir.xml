@@ -1,7 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/power_button"
+        android:text="@string/power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/vollume_mute_button"
+        android:text="@string/vollume_mute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/vollume_up_button"
         android:text="@string/vollume_up"
@@ -12,25 +25,9 @@
         android:text="@string/vollume_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/get_freqs_button"
-        android:text="@string/ir_get_freqs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
-    <ScrollView
-        android:id="@+id/freqs_text_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/freqs_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp" />
 
-    </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>
